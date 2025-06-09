@@ -18,9 +18,9 @@ import cors from 'cors';
 import express, { json, NextFunction, Request, Response, urlencoded } from 'express';
 import { join } from 'path';
 
-// function initWA() {
-//   waMonitor.loadInstance();
-// }
+ function initWA() {
+   waMonitor.loadInstance();
+ }
 
 async function bootstrap() {
   const logger = new Logger('SERVER');
