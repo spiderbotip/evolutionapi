@@ -7,7 +7,7 @@ import { PrismaRepository } from '@api/repository/repository.service';
 import { HttpStatus, router } from '@api/routes/index.router';
 // import { eventManager, waMonitor } from '@api/server.module'; // COMENTADO
 import { Auth, configService, Cors, HttpServer, /* ProviderSession, */ Webhook } from '@config/env.config';
-import { onUnexpectedError } from '@config/error.config';
+// import { onUnexpectedError } from '@config/error.config'; // COMENTADO
 import { Logger } from '@config/logger.config';
 import { ROOT_DIR } from '@config/path.config';
 import * as Sentry from '@sentry/node';
@@ -142,7 +142,7 @@ async function bootstrap() {
 
   // initWA(); // COMENTADO
 
-  onUnexpectedError();
+  // onUnexpectedError(); // COMENTADO
 }
 
 bootstrap().catch((err) => {
