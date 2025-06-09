@@ -2,11 +2,11 @@
 import '@utils/instrumentSentry';
 
 // Now import other modules
-import { ProviderFiles } from '@api/provider/sessions';
+// import { ProviderFiles } from '@api/provider/sessions'; // COMENTADO
 import { PrismaRepository } from '@api/repository/repository.service';
 import { HttpStatus, router } from '@api/routes/index.router';
 // import { eventManager, waMonitor } from '@api/server.module'; // COMENTADO
-import { Auth, configService, Cors, HttpServer, ProviderSession, Webhook } from '@config/env.config';
+import { Auth, configService, Cors, HttpServer, /* ProviderSession, */ Webhook } from '@config/env.config';
 import { onUnexpectedError } from '@config/error.config';
 import { Logger } from '@config/logger.config';
 import { ROOT_DIR } from '@config/path.config';
@@ -26,12 +26,12 @@ async function bootstrap() {
   const logger = new Logger('SERVER');
   const app = express();
 
-  let providerFiles: ProviderFiles = null;
-  if (configService.get<ProviderSession>('PROVIDER').ENABLED) {
-    providerFiles = new ProviderFiles(configService);
-    await providerFiles.onModuleInit();
-    logger.info('Provider:Files - ON');
-  }
+  // let providerFiles: ProviderFiles = null;
+  // if (configService.get<ProviderSession>('PROVIDER').ENABLED) {
+  //   providerFiles = new ProviderFiles(configService);
+  //   await providerFiles.onModuleInit();
+  //   logger.info('Provider:Files - ON');
+  // }
 
   const prismaRepository = new PrismaRepository(configService);
   await prismaRepository.onModuleInit();
