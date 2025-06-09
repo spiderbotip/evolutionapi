@@ -137,13 +137,17 @@ async function bootstrap() {
 
     // Add this after all routes,
     // but before any and other error-handling middlewares are defined
-    Sentry.setupExpressErrorHandler(app);
-  }
+if (process.env.SENTRY_DSN) {
+  logger.info('Sentry - ON');
+  Sentry.setupExpressErrorHandler(app);
+}
 
-  const port = process.env.PORT || httpServer.PORT || 3000;
-  server.listen(port, () => logger.log(httpServer.TYPE.toUpperCase() + ' - ON: ' + port));
+const port = process.env.PORT || httpServer.PORT || 3000;
+app.listen(port, () => logger.log('HTTP - EXPRESS listening on port: ' + port));
 
-  initWA();
+initWA();
+onUnexpectedError();
+
 
   onUnexpectedError();
 }
