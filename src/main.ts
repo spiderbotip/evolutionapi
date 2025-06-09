@@ -134,12 +134,7 @@ async function bootstrap() {
 
   if (process.env.SENTRY_DSN) {
     logger.info('Sentry - ON');
-
-    // Add this after all routes,
-    // but before any and other error-handling middlewares are defined
-if (process.env.SENTRY_DSN) {
-  logger.info('Sentry - ON');
-  Sentry.setupExpressErrorHandler(app);
+      Sentry.setupExpressErrorHandler(app);
 }
 
 const port = process.env.PORT || httpServer.PORT || 3000;
