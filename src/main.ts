@@ -5,7 +5,7 @@ import '@utils/instrumentSentry';
 import { ProviderFiles } from '@api/provider/sessions';
 import { PrismaRepository } from '@api/repository/repository.service';
 import { HttpStatus, router } from '@api/routes/index.router';
-import { eventManager, waMonitor } from '@api/server.module';
+// import { eventManager, waMonitor } from '@api/server.module'; // COMENTADO
 import { Auth, configService, Cors, HttpServer, ProviderSession, Webhook } from '@config/env.config';
 import { onUnexpectedError } from '@config/error.config';
 import { Logger } from '@config/logger.config';
@@ -18,9 +18,9 @@ import cors from 'cors';
 import express, { json, NextFunction, Request, Response, urlencoded } from 'express';
 import { join } from 'path';
 
-function initWA() {
-  waMonitor.loadInstance();
-}
+// function initWA() {
+//   waMonitor.loadInstance();
+// }
 
 async function bootstrap() {
   const logger = new Logger('SERVER');
@@ -129,7 +129,7 @@ async function bootstrap() {
   ServerUP.app = app;
   const server = ServerUP[httpServer.TYPE];
 
-  eventManager.init(server);
+  // eventManager.init(server); // COMENTADO
 
   if (process.env.SENTRY_DSN) {
     logger.info('Sentry - ON');
@@ -140,13 +140,11 @@ async function bootstrap() {
   const port = process.env.PORT || httpServer.PORT || 4000;
   app.listen(port, '0.0.0.0', () => logger.log('HTTP - EXPRESS listening on port: ' + port));
 
-  initWA();
+  // initWA(); // COMENTADO
 
-  // MOVIDO PARA CÁ
   onUnexpectedError();
 }
 
-// ADICIONADO: captura erro caso o bootstrap falhe
 bootstrap().catch((err) => {
   console.error('[FATAL] Erro ao iniciar o servidor:', err);
 });
