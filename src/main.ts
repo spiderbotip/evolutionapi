@@ -138,7 +138,7 @@ async function bootstrap() {
 }
 
 console.log('[DEBUG] Chegou no app.listen');
-const port = process.env.PORT || httpServer.PORT || 3000;
+const port = process.env.PORT || httpServer.PORT || 4000;
 app.listen(port, '0.0.0.0', () => logger.log('HTTP - EXPRESS listening on port: ' + port));
 
 initWA();
