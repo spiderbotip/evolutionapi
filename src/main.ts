@@ -59,7 +59,6 @@ async function bootstrap() {
   app.set('view engine', 'hbs');
   app.set('views', join(ROOT_DIR, 'views'));
   app.use(express.static(join(ROOT_DIR, 'public')));
-
   app.use('/store', express.static(join(ROOT_DIR, 'store')));
 
   app.use('/', router);
@@ -69,8 +68,8 @@ async function bootstrap() {
       if (err) {
         const webhook = configService.get<Webhook>('WEBHOOK');
 
-        if (webhook.EVENTS.ERRORS_WEBHOOK && webhook.EVENTS.ERRORS_WEBHOOK != '' && webhook.EVENTS.ERRORS) {
-          const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+        if (webhook.EVENTS.ERRORS_WEBHOOK && webhook.EVENTS.ERRORS_WEBHOOK !== '' && webhook.EVENTS) {
+          const tzoffset = new Date().getTimezoneOffset() * 60000;
           const localISOTime = new Date(Date.now() - tzoffset).toISOString();
           const now = localISOTime;
           const globalApiKey = configService.get<Auth>('AUTHENTICATION').API_KEY.KEY;
@@ -134,16 +133,20 @@ async function bootstrap() {
 
   if (process.env.SENTRY_DSN) {
     logger.info('Sentry - ON');
-      Sentry.setupExpressErrorHandler(app);
-}
+    Sentry.setupExpressErrorHandler(app);
+  }
 
-console.log('[DEBUG] Chegou no app.listen');
-const port = process.env.PORT || httpServer.PORT || 4000;
-app.listen(port, '0.0.0.0', () => logger.log('HTTP - EXPRESS listening on port: ' + port));
+  console.log('[DEBUG] Chegou no app.listen');
+  const port = process.env.PORT || httpServer.PORT || 4000;
+  app.listen(port, '0.0.0.0', () => logger.log('HTTP - EXPRESS listening on port: ' + port));
 
-initWA();
+  initWA();
 
+  // MOVIDO PARA CÁ
   onUnexpectedError();
 }
 
-bootstrap();
+// ADICIONADO: captura erro caso o bootstrap falhe
+bootstrap().catch((err) => {
+  console.error('[FATAL] Erro ao iniciar o servidor:', err);
+});
